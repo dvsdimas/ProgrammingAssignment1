@@ -32,6 +32,6 @@ pollutantmean <- function(directory, pollutant, id = 1:332) { # pollutant == sul
         results[i] <- mean(data[,pollutant], na.rm = TRUE) 
     }
     
-    mean(results)
+    mean(results, na.rm = TRUE)
 }
 
