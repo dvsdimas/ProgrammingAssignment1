@@ -9,10 +9,9 @@ pollutantmean <- function(directory, pollutant, id = 1:332) { # pollutant == sul
     results <- vector("double", length = length(id))
     names <- vector("character", length = length(id))
     
-    for (i in id) {
+    for (i in seq_along(id)) {
         
-        number_str <- paste(i)
-        number_len <- nchar(number_str) 
+        number_len <- nchar(paste(id[i])) 
         
         prefix <- ""
         
@@ -22,16 +21,20 @@ pollutantmean <- function(directory, pollutant, id = 1:332) { # pollutant == sul
             prefix <- "0"
         } 
         
-        names[i] <- paste(prefix, i, ".csv", sep = "")
+        names[i] <- paste(prefix, id[i], ".csv", sep = "")
     }
     
-    for (i in seq_along(names)) {
+    row <- double(0)
     
-        data <- read.csv(names[i])    
+    for (letters in names) {
     
-        results[i] <- mean(data[,pollutant], na.rm = TRUE) 
+        data <- read.csv(letters)    
+    
+        row <- c(row, as.vector(data[[pollutant]]))
     }
     
-    mean(results, na.rm = TRUE)
+    round(mean(row, na.rm = TRUE), digits = 3)
+    
+    #row
 }
 
